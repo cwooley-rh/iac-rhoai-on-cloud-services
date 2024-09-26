@@ -33,3 +33,9 @@
         install_rhoai_components_admin_user: "{{ ocp_username }}"
         install_rhoai_components_admin_pw: "{{ ocp_password }}"
         install_rhoai_components_cluster_api_url: "{{ cluster_api_url }}"
+
+    - role: create_workshop
+      vars:
+        create_workshop_admin_user: "{{ ocp_username }}"
+        create_workshop_admin_pw: "{{ ocp_password }}"
+        create_workshop_cluster_api_url: "{{ cluster_api_url }}"

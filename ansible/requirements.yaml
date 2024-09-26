@@ -1,10 +1,4 @@
 ---
-roles:
-  - name: workshop-role
-    src: https://github.com/poc-examples/workshop-role.git
-    scm: git
-    version: main
-
 
 collections:
   - name: amazon.aws
@@ -17,3 +11,8 @@ collections:
   - name: kubernetes.core
   - name: cloud.terraform
   - name: azure.azcollection
+
+  - name: bootstrap.workshop
+    source: https://github.com/poc-examples/ansible-collections.git#/bootstrap/workshop
+    type: git
+    version: main
