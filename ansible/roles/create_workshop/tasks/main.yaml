@@ -47,7 +47,7 @@
       chart:
         name: "rhoai-devex-mobb"
         repo: "https://poc-examples.github.io/workshops"
-        version: "0.1.12"
+        version: "0.1.13"
   ansible.builtin.include_role:
     name: workshop
   collections:
@@ -63,7 +63,11 @@
       vault:
         enabled: true
       namespace: secrets-manager
-      pushSecrets: []
+      pushSecrets:
+        - name: aws-credentials
+          secrets:
+            AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+            AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
   ansible.builtin.import_role:
     name: secrets-manager
   collections:

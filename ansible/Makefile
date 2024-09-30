@@ -17,7 +17,7 @@ venv:
 	$(VIRTUALENV)/bin/pip install --upgrade pip setuptools wheel
 	$(VIRTUALENV)/bin/pip install --only-binary=:all: -r requirements.txt || $(VIRTUALENV)/bin/pip install -r requirements.txt
 	$(VIRTUALENV)/bin/pip install --only-binary=:all: -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt || $(VIRTUALENV)/bin/pip install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt
-	$(VIRTUALENV)/bin/ansible-galaxy install -r requirements.yaml $(IGNORE_CERTS_OPTION)
+	$(VIRTUALENV)/bin/ansible-galaxy install -r requirements.yaml $(IGNORE_CERTS_OPTION) --force
 
 .PHONY: create.%
 create.%:
