@@ -47,7 +47,7 @@
       chart:
         name: "rhoai-devex-mobb"
         repo: "https://poc-examples.github.io/workshops"
-        version: "0.1.7"
+        version: "0.1.12"
   ansible.builtin.include_role:
     name: workshop
   collections:
