@@ -17,7 +17,7 @@
           hcp: "{{ (cluster_type == 'rosa_hcp') | ternary(true,false) }}"
       when:
 
-- name: "Create"
+- name: "Create Cluster"
   hosts: localhost
   connection: local
   vars:
@@ -27,7 +27,21 @@
       when: cluster_type in ['rosa_hcp','rosa_classic']
     - role: aro_cluster
       when: cluster_type == 'aro'
+    - role: ocp_auth
+      vars:
+        ocp_auth_admin_user: "{{ ocp_username }}"
+        ocp_auth_admin_pw: "{{ ocp_password }}"
+        ocp_auth_cluster_api_url: "{{ cluster_api_url }}"
 
+- name: "Deploy RHOAI"
+  hosts: localhost
+  connection: local
+  vars:
+    ansible_python_interpreter: ./virtualenv/bin/python
+  environment:
+    K8S_AUTH_API_KEY: "{{ ocp_auth_api_key }}"
+    K8S_AUTH_HOST: "{{ ocp_auth_host }}"
+  roles:
     - role: install_rhoai_components
       vars:
         install_rhoai_components_admin_user: "{{ ocp_username }}"

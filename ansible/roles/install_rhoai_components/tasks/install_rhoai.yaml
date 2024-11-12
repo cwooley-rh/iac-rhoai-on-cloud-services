@@ -3,36 +3,15 @@
   include_role:
     name: install_operator
   vars:
-    operator_name: rhods-operator
-    operator_namespace: redhat-ods-operator
-    operator_channel: fast
-    operator_install_plan_approval: Automatic
-    operator_source: redhat-operators
-    operator_source_namespace: openshift-marketplace
-    operator_wait: true
-
-# - name: Create Subscription for OpenShift AI Operator
-#   community.okd.k8s:
-#     host: "{{ host }}"
-#     api_key: "{{ api_key }}"
-#     state: present
-#     definition:
-#       apiVersion: operators.coreos.com/v1alpha1
-#       kind: Subscription
-#       metadata:
-#         name: rhods-operator
-#         namespace: redhat-ods-operator
-#       spec:
-#         channel: fast
-#         installPlanApproval: Automatic
-#         name: rhods-operator
-#         source: redhat-operators
-#         sourceNamespace: openshift-marketplace
+    install_operator_name: rhods-operator
+    install_operator_namespace: redhat-ods-operator
+    install_operator_channel: fast
+    install_operator_install_plan_approval: Automatic
+    install_operator_source_namespace: openshift-marketplace
+    install_operator_wait: true
 
 - name: Wait for OpenShift AI Operator to be deployed
   kubernetes.core.k8s_info:
-    host: "{{ host }}"
-    api_key: "{{ api_key }}"
     kind: subscription
     api_version: operators.coreos.com/v1alpha1
     name: rhods-operator
@@ -47,8 +26,6 @@
 
 - name: Create Data Science Cluster
   community.okd.k8s:
-    host: "{{ host }}"
-    api_key: "{{ api_key }}"
     state: present
     definition:
       apiVersion: datasciencecluster.opendatahub.io/v1
@@ -86,8 +63,6 @@
 
 - name: Wait for OpenShift Data Science Cluster
   kubernetes.core.k8s_info:
-    host: "{{ host }}"
-    api_key: "{{ api_key }}"
     kind: Pod
     namespace: redhat-ods-applications
     label_selectors:
@@ -99,8 +74,6 @@
 - name: create accelorator profile for nvidia
   when: install_rhoai_components_nvidia_gpus | bool
   community.okd.k8s:
-    host: "{{ host }}"
-    api_key: "{{ api_key }}"
     state: present
     definition:
       apiVersion: dashboard.opendatahub.io/v1
@@ -119,8 +92,6 @@
 
 - name: Fetch Red Hat OpenShift AI url
   kubernetes.core.k8s_info:
-    host: "{{ host }}"
-    api_key: "{{ api_key }}"
     kind: Route
     namespace: redhat-ods-applications
     name: rhods-dashboard

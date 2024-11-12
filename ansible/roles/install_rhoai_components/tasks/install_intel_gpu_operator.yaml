@@ -3,18 +3,16 @@
   include_role:
     name: install_operator
   vars:
-    operator_name: intel-device-plugins-operator
-    operator_namespace: openshift-operators
-    operator_channel: alpha
-    operator_install_plan_approval: Automatic
-    operator_source: certified-operators
-    operator_source_namespace: openshift-marketplace
-    operator_wait: true
+    install_operator_name: intel-device-plugins-operator
+    install_operator_namespace: openshift-operators
+    install_operator_channel: alpha
+    install_operator_install_plan_approval: Automatic
+    install_operator_catalog: certified-operators
+    install_operator_source_namespace: openshift-marketplace
+    install_operator_wait: true
 
 - name: Create Intel QAT CR
   community.okd.k8s:
-    host: "{{ host }}"
-    api_key: "{{ api_key }}"
     state: present
     definition:
       apiVersion: deviceplugin.intel.com/v1
@@ -34,8 +32,6 @@
 
 - name: Create Node Feature Rule for Intel
   community.okd.k8s:
-    host: "{{ host }}"
-    api_key: "{{ api_key }}"
     state: present
     definition:
       apiVersion: nfd.openshift.io/v1alpha1

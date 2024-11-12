@@ -1,5 +1,11 @@
 ---
 
+roles:
+  - name: workshop-role
+    src: https://github.com/poc-examples/workshop-role.git
+    scm: git
+    version: main
+
 collections:
   - name: amazon.aws
   - name: ansible.utils

@@ -13,7 +13,7 @@
       ansible.builtin.set_fact:
         state: absent
 
-- name: Uninstall ROSA HCP cluster
+- name: Destroy cluster
   hosts: localhost
   connection: local
   vars:

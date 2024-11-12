@@ -23,6 +23,9 @@ venv:
 create.%:
 	$(VIRTUALENV)/bin/ansible-playbook -vv -i ./environment/$*/hosts create_cluster.yaml
 
+.PHONY: delete.%
+delete.%: destroy.$*
+
 .PHONY: destroy.%
 destroy.%:
 	$(VIRTUALENV)/bin/ansible-playbook -vv -i ./environment/$*/hosts destroy_cluster.yaml

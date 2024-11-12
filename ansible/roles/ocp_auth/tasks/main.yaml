@@ -1,0 +1,23 @@
+- name: Debug cluster_api_url
+  ansible.builtin.debug:
+    msg: |
+      Cluster API URL: {{ ocp_auth_cluster_api_url }}
+      host: "{{ ocp_auth_cluster_api_url }}"
+      username: "{{ ocp_auth_admin_user }}"
+      password: "{{ ocp_auth_admin_pw }}"
+
+- name: Login to OCP cluster
+  community.okd.openshift_auth:
+    host: "{{ ocp_auth_cluster_api_url }}"
+    username: "{{ ocp_auth_admin_user }}"
+    password: "{{ ocp_auth_admin_pw }}"
+    verify_ssl: false
+  register: login
+  retries: 10
+  delay: 60
+
+- set_fact:
+    ocp_auth_kubeconfig: "{{ login.openshift_auth }}"
+    ocp_auth_api_key: "{{ login.openshift_auth.api_key }}"
+    ocp_auth_host: "{{ login.openshift_auth.host }}"
+  no_log: true
