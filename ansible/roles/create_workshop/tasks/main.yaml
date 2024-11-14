@@ -49,7 +49,7 @@
       chart:
         name: "rhoai-devex-mobb"
         repo: "https://poc-examples.github.io/workshops"
-        version: "0.1.15" ## update this version to the latest version of the chart
+        version: "0.1.16" ## update this version to the latest version of the chart
         enabled: true
 
 - name: Secrets Management
