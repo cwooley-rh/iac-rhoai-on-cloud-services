@@ -1,4 +1,5 @@
 ---
+
 - name: "Init"
   hosts: localhost
   connection: local
@@ -41,6 +42,8 @@
   environment:
     K8S_AUTH_API_KEY: "{{ ocp_auth_api_key }}"
     K8S_AUTH_HOST: "{{ ocp_auth_host }}"
+  collections:
+    - bootstrap.workshop
   roles:
     - role: install_rhoai_components
       vars:

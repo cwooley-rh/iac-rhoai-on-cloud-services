@@ -1,0 +1,12 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - role: create_workshop
+      vars:
+        create_workshop_admin_user: "admin"
+        create_workshop_admin_pw: "Passw0rd12345!"
+        create_workshop_cluster_api_url: "https://api.cwooley-rhoai.gulh.p3.openshiftapps.com:443"
+

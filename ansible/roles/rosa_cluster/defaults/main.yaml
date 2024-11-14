@@ -21,7 +21,7 @@ rosa_cluster_tf_vars:
   compute_machine_type: "m5.xlarge"
   secondary_machine_pool_enabled: true
   secondary_machine_pool_name: "gpu-pool"
-  secondary_machine_pool_instance_type: "g5.xlarge" #"p4d.24xlarge"
+  secondary_machine_pool_instance_type: "g5.xlarge" # "p4d.24xlarge"
   secondary_machine_pool_replicas: 1
   workers_replicas: 6
   workers_replicas_max: 6

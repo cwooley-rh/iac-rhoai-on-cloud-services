@@ -4,6 +4,7 @@ CLUSTER_NAME ?= $(shell whoami)-test
 
 VIRTUALENV ?= ./virtualenv
 ANSIBLE = $(VIRTUALENV)/bin/ansible-playbook $(VERBOSITY) $(EXTRA_VARS)
+COLLECTIONS_PATH=$(VIRTUALENV)/lib/python3.12/site-packages/ansible_collections
 
 IGNORE_CERTS ?= false
 IGNORE_CERTS_OPTION=
@@ -17,10 +18,14 @@ venv:
 	$(VIRTUALENV)/bin/pip install --upgrade pip setuptools wheel
 	$(VIRTUALENV)/bin/pip install --only-binary=:all: -r requirements.txt || $(VIRTUALENV)/bin/pip install -r requirements.txt
 	$(VIRTUALENV)/bin/pip install --only-binary=:all: -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt || $(VIRTUALENV)/bin/pip install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements.txt
+	ANSIBLE_COLLECTIONS_PATH=$(COLLECTIONS_PATH) \
+	ANSIBLE_ROLES_PATH="$(COLLECTIONS_PATH)/ansible_collections/bootstrap/workshop/roles" \
 	$(VIRTUALENV)/bin/ansible-galaxy install -r requirements.yaml $(IGNORE_CERTS_OPTION) --force
 
 .PHONY: create.%
 create.%:
+	ANSIBLE_COLLECTIONS_PATH=$(COLLECTIONS_PATH) \
+	ANSIBLE_ROLES_PATH="$(COLLECTIONS_PATH)/bootstrap/workshop/roles:$(ANSIBLE_ROLES_PATH)" \
 	$(VIRTUALENV)/bin/ansible-playbook -vv -i ./environment/$*/hosts create_cluster.yaml
 
 .PHONY: delete.%

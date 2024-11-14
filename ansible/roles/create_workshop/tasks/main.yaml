@@ -9,7 +9,7 @@
   delay: 60
 
 - name: Fetch the Ingress resource
-  community.kubernetes.k8s_info:
+  kubernetes.core.k8s_info:
     host: "{{ create_workshop_cluster_api_url }}"
     api_key: "{{ login.openshift_auth.api_key }}"
     api_version: config.openshift.io/v1
@@ -18,11 +18,11 @@
   register: ingress_info
 
 - name: Extract the domain from the Ingress resource
-  set_fact:
+  ansible.builtin.set_fact:
     openshift_domain: "{{ ingress_info.resources[0].spec.domain | regex_replace('^apps\\.', '') }}"
 
 - name: Waiting for OpenShift Healthy State - Can Take up to 12-15 Minutes
-  community.kubernetes.k8s_info:
+  kubernetes.core.k8s_info:
     host: "{{ create_workshop_cluster_api_url }}"
     api_key: "{{ login.openshift_auth.api_key }}"
     api_version: v1
@@ -36,10 +36,12 @@
   delay: 30
 
 - name: Workshop
+  ansible.builtin.import_role:
+    name: gitops-instance  # Note: using underscore instead of hyphen
   vars:
     api_url: "{{ create_workshop_cluster_api_url }}"
     token: "{{ login.openshift_auth.api_key }}"
-    validate_certs: False
+    validate_certs: false
     domain: "{{ openshift_domain }}"
     gitops:
       namespace: "openshift-gitops"
@@ -47,18 +49,17 @@
       chart:
         name: "rhoai-devex-mobb"
         repo: "https://poc-examples.github.io/workshops"
-        version: "0.1.13"
-  ansible.builtin.include_role:
-    name: workshop
-  collections:
-    - bootstrap.workshop
+        version: "0.1.15" ## update this version to the latest version of the chart
+        enabled: true
 
 - name: Secrets Management
+  ansible.builtin.import_role:
+    name: secrets-manager
   vars:
     domain: "{{ openshift_domain }}"
     token: "{{ login.openshift_auth.api_key }}"
     api_url: "{{ create_workshop_cluster_api_url }}"
-    validate_certs: False
+    validate_certs: false
     secrets:
       vault:
         enabled: true
@@ -68,7 +69,3 @@
           secrets:
             AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
             AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
-  ansible.builtin.import_role:
-    name: secrets-manager
-  collections:
-    - bootstrap.workshop

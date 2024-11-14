@@ -50,6 +50,7 @@
             serving:
               ingressGateway:
                 certificate:
+                  secretName: knative-serving-cert
                   type: OpenshiftDefaultIngress
               managementState: Managed
           kueue:
