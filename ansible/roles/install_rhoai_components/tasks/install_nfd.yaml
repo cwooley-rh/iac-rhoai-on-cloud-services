@@ -71,3 +71,4 @@
                   - "12"
                 deviceLabelFields:
                   - "class"
+                  - "vendor"
