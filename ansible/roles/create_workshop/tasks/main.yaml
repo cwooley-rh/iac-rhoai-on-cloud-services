@@ -37,7 +37,7 @@
 
 - name: Workshop
   ansible.builtin.import_role:
-    name: gitops-instance  # Note: using underscore instead of hyphen
+    name: gitops-instance 
   vars:
     api_url: "{{ create_workshop_cluster_api_url }}"
     token: "{{ login.openshift_auth.api_key }}"
