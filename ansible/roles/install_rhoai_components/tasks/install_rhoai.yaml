@@ -47,12 +47,12 @@
           datasciencepipelines:
             managementState: Managed
           kserve:
+            managementState: Managed
             serving:
               ingressGateway:
                 certificate:
                   secretName: knative-serving-cert
                   type: OpenshiftDefaultIngress
-              managementState: Managed
           kueue:
             managementState: Managed
           modelmeshserving:
