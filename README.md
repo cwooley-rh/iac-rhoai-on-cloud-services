@@ -80,6 +80,8 @@ ok: [localhost] =>
 
 # Core Workflow Components
 
+![Core Workflow Components](./images/workflow.png)
+
 
 ## The automation is structured around the following main playbooks:
 
